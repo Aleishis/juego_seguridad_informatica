@@ -509,7 +509,7 @@
           <div class="divider-section">
             <p>
               ¿Nuevo en el reino?
-              <a class="register-link" href="#">Regístrate aquí</a>
+              <a class="register-link" href="{{url_for('signup')}}">Regístrate aquí</a>
             </p>
           </div>
         </div>
@@ -522,7 +522,8 @@
     <span class="material-symbols-outlined float-icon float-2 icon-large"
       >flare</span
     >
-    <script src="{{ url_for('static', filename='js/mystic_quest/signin.js') }}"></script>    <script>
+    <script src="{{ url_for('static', filename='js/mystic_quest/signin.js') }}"></script>    
+    <script>
       function togglePassword() {
         const passwordInput = document.getElementById("password");
         const eyeIcon = document.getElementById("eye-icon");

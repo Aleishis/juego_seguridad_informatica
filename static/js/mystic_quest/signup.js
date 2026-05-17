@@ -1,10 +1,12 @@
 
-document.getElementById('btn-register').addEventListener("click", register);
+document.getElementById('signup-form').addEventListener("submit", register);
 
 function register(){
 
+    event.preventDefault();
+
     var password = document.getElementById('user-password').value;
-    var repeatPassword = document.getElementById('user-confirm-password').value;
+    var repeatPassword = document.getElementById('user-repeat-password').value;
 
     if (password != repeatPassword) {
         alert("Las password no coinciden")
@@ -21,7 +23,7 @@ function register(){
     };
 
     //endpoint api/users
-    fetch('api/users', {
+    fetch('api/signup', {
         method:"POST",
         headers:{"Content-Type":"application/json"},
         body: JSON.stringify(data)
@@ -29,6 +31,7 @@ function register(){
     .then(result => {
         if(result.success){
             alert("El usuario se guardo correctamente")
+            window.location.href = "/";
         } else{
             alert(result.message)
         }

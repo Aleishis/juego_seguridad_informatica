@@ -8,10 +8,10 @@ from flask_login import UserMixin
 
 class User(UserMixin):
     
-    def __init__(self,id:int, email:str, password:str, profile:Profile, permissions:list[ValuePermission], is_active:bool):
+    def __init__(self,id:int, name:str, email:str, password:str, profile:Profile, permissions:list[ValuePermission], is_active:bool):
         
         self.id = id
-        #self.name = name
+        self.name = name
         self.email = email
         self.password = password
         self.profile = profile
@@ -63,7 +63,7 @@ class User(UserMixin):
             cursor = connection.cursor()
             hash_password = generate_password_hash(password)
 
-            query = "INSERT INTO users (name, email, password) VALUES (%s, %s, %s)"
+            query = "INSERT INTO users (name, email, password_hash) VALUES (%s, %s, %s)"
             cursor.execute(query, (name, email, hash_password))
             connection.commit()
 
@@ -82,7 +82,7 @@ class User(UserMixin):
             connection = get_connection()
             cursor = connection.cursor(pymysql.cursors.DictCursor)
 
-            query = "SELECT id, email, password_hash, is_active, profile FROM users WHERE email = %s" #Solo trae user
+            query = "SELECT id, name, email, password_hash, is_active, profile FROM users WHERE email = %s" #Solo trae user
             cursor.execute(query, (email,))
             
             try:
@@ -103,13 +103,13 @@ class User(UserMixin):
             
             #if user and check_password_hash(user['password'], password):
                 
-            return User(user['id'],user['email'],"", user['profile'], [], bool(user['is_active']))
+            return User(user['id'],user['name'],user['email'],"", user['profile'], [], bool(user['is_active']))
             
             return None
                 
         except Exception as ex:
             print(f"Error loging user:{ex}")
-            return False
+            return None
 
 
 
@@ -119,7 +119,7 @@ class User(UserMixin):
             connection = get_connection()
             cursor = connection.cursor(pymysql.cursors.DictCursor)
 
-            query = "SELECT id, email, profile, is_active FROM users WHERE id = %s"
+            query = "SELECT id,name, email, profile, is_active FROM users WHERE id = %s"
             cursor.execute(query, (user_id,))
             
             user = cursor.fetchone()
@@ -127,6 +127,7 @@ class User(UserMixin):
             cursor.close()
             connection.close()
             return User(user['id'],
+                            user['name'],
                             user['email'], 
                             '', 
                             user['profile'],

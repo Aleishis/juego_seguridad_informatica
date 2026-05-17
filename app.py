@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, redirect, url_for
+from flask import Flask, request, jsonify, render_template, redirect, session, url_for
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from dotenv import load_dotenv
 import os
@@ -12,7 +12,7 @@ app.secret_key = os.getenv("SECRET_KEY")
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login'
+login_manager.login_view = 'index'
 
 @app.route('/')
 def index():
@@ -34,22 +34,46 @@ def login():
         
         if user and user.is_active:
             login_user(user)
+            
+            session['user_id'] = user.id  
+            
             return jsonify({'success' : True, "message": "Logged in successfully!",}), 200
         else:   
             return jsonify({'success' : False, 'message' : "Invalid request", }), 401   
 
-@app.route('/signup', methods=['GET', 'POST'])
+@app.route('/signup')
 def signup():
     return render_template('signup.html')
 
+@app.route('/api/signup',methods=['POST'])
+def register():
+    data = request.get_json()
+    
+    name = data.get('name')
+    email = data.get('email')
+    password = data.get('password')
+
+    if User.save(name, email, password):
+        return jsonify({'success' : True, "message": "User registered successfully!"}), 201
+    else:
+        return jsonify({'success' : False, 'message' : "Error saving user"}), 403
+    
+    
 @app.route('/welcome')
 @login_required
-def welcome():
-    return render_template('welcome.html', email=current_user.email)
+def welcome():    
+    return render_template('welcome.html', username=current_user.name)
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.get_by_id(user_id)
 
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    session.clear()
+    return redirect(url_for('index'))
+
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(port=5000, debug=True)

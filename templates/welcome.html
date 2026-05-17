@@ -161,7 +161,7 @@
   >
     <!-- TopAppBar -->
     <header
-      class="fixed top-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface/70 backdrop-blur-xl border-b border-white/10 shadow-sm"
+      class="fixed top-0 w-full z-50 flex justify-between items-center px-container-padding bg-surface/70 backdrop-blur-xl border-b border-white/10 shadow-sm h-20"
     >
       <div class="flex items-center gap-2">
         <span class="font-headline-md text-primary tracking-tight font-bold"
@@ -169,6 +169,17 @@
         >
       </div>
       <div class="flex items-center gap-4">
+        <div
+          class="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 hover:bg-surface-variant transition-colors cursor-pointer group"
+        >
+          <span
+            class="material-symbols-outlined text-on-surface-variant group-hover:text-primary"
+            >leaderboard</span
+          ><span
+            class="font-label-md text-label-md text-on-surface-variant group-hover:text-on-surface"
+            >Clasificaci3n</span
+          >
+        </div>
         <div
           class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container hover:bg-surface-variant transition-colors cursor-pointer group"
         >
@@ -189,7 +200,7 @@
     </header>
     <!-- Main Content Canvas -->
     <main
-      class="pt-16 pb-12 flex flex-col items-center justify-center min-h-screen px-container-padding text-center"
+      class="pb-12 flex flex-col items-center justify-center min-h-screen px-container-padding text-center pt-20"
     >
       <!-- Welcome Hero Section -->
       <div class="max-w-4xl w-full flex flex-col items-center gap-8 py-12">
@@ -216,7 +227,7 @@
             alt="Escena épica de Mystic Quest"
             class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
             data-alt="A cinematic, high-fantasy digital painting of a glowing, legendary sword embedded in an ancient stone altar. The altar sits atop a grassy hill overlooking a vast range of jagged, misty mountains under a deep indigo twilight sky. Ethereal magical particles and soft purple starlight illuminate the scene, creating a sense of wonder and mystery. The visual style is polished and modern, consistent with a high-end adventure game dashboard."
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvCUbqqUgB6KYyIPOUtTjHH9HqGrqjezqwym0-OoQK7_PWr_M1CBZwGETdEP6uvcyGDsosEqPplS4M2Di3fNOS21osYG0xl_UTnJcM4NtDWJ_lO-chdmH3hUbR6Zsdh1G8L_YhP0W0vyJjCWJkkLKn50lak9m31I4blaUOcSvYKH7j4x5ZW78leR7FVq3xRDPtxUz8UGzm0ayjTErxe3dAiUguu_NI43NXCgThuIHlC6JxfPEwq6cCxapqe4AsOj9KLz-6fC5P8FY"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9umQymxpTcr_W_9zbglm5krlS2TeI-Hqi8ZEYC9PS-E_TqsWYKmIGZNsCiigfXxfHgWISiblgXS8qV7FnkXIo75Gif5LBOc4DfUo2_069GyUbn_2lcfU8x79IkvWwVyOzEEwmYukM2v0VFYwcLSyZ_n_jnNoTjXQDWBogxihiiKgtTu0feRvDfpjhlqTTZxk6htXVPy-rqGlR7VWL2gPRme_7jBRVVDxWzqwW7OVv_rAtbWhb6LsitAhx8pA7HDgFXmKN9O1Uzkk"
           />
           <!-- Atmospheric Overlay -->
           <div
@@ -242,63 +253,6 @@
         </div>
       </div>
       <!-- Secondary Navigation/Info (Optional Contextual Elements) -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl w-full mt-12">
-        <div
-          class="glass-card p-6 rounded-2xl text-left flex items-start gap-4 hover:border-primary/30 transition-all cursor-pointer"
-        >
-          <div
-            class="w-12 h-12 rounded-xl bg-tertiary/10 flex items-center justify-center shrink-0"
-          >
-            <span class="material-symbols-outlined text-tertiary">explore</span>
-          </div>
-          <div>
-            <h3 class="font-headline-md text-headline-md text-on-surface mb-1">
-              Misiones
-            </h3>
-            <p class="font-label-md text-label-md text-on-surface-variant">
-              Continúa tu viaje desde donde lo dejaste.
-            </p>
-          </div>
-        </div>
-        <div
-          class="glass-card p-6 rounded-2xl text-left flex items-start gap-4 hover:border-primary/30 transition-all cursor-pointer"
-        >
-          <div
-            class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0"
-          >
-            <span class="material-symbols-outlined text-primary"
-              >inventory_2</span
-            >
-          </div>
-          <div>
-            <h3 class="font-headline-md text-headline-md text-on-surface mb-1">
-              Bóveda
-            </h3>
-            <p class="font-label-md text-label-md text-on-surface-variant">
-              Revisa tus artefactos y equipo actual.
-            </p>
-          </div>
-        </div>
-        <div
-          class="glass-card p-6 rounded-2xl text-left flex items-start gap-4 hover:border-primary/30 transition-all cursor-pointer"
-        >
-          <div
-            class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center shrink-0"
-          >
-            <span class="material-symbols-outlined text-secondary"
-              >auto_awesome</span
-            >
-          </div>
-          <div>
-            <h3 class="font-headline-md text-headline-md text-on-surface mb-1">
-              Reliquias
-            </h3>
-            <p class="font-label-md text-label-md text-on-surface-variant">
-              Desbloquea nuevos poderes mágicos.
-            </p>
-          </div>
-        </div>
-      </div>
     </main>
     <!-- BottomNavBar (Mobile only) -->
     <nav
@@ -333,6 +287,5 @@
         <span class="font-label-sm text-label-sm">Settings</span>
       </a>
     </nav>
-
   </body>
 </html>
