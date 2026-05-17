@@ -5,6 +5,7 @@ from enums.value_permission import ValuePermission
 from enums.profile import Profile
 import pymysql
 from flask_login import UserMixin
+from typing import Optional
 
 class User(UserMixin):
     
@@ -76,41 +77,41 @@ class User(UserMixin):
     
     
     #probar con join
-    def check_login(email:str, password:str):
-        
+    def check_login(email: str, password: str) -> Optional["User"]:
         try:
             connection = get_connection()
             cursor = connection.cursor(pymysql.cursors.DictCursor)
 
-            query = "SELECT id, name, email, password_hash, is_active, profile FROM users WHERE email = %s" #Solo trae user
+            query = """
+                SELECT id, name, email, password_hash, is_active, profile
+                FROM users
+                WHERE email = %s
+            """
             cursor.execute(query, (email,))
-            
-            try:
-                
-                user = cursor.fetchone()
-            
-            except Exception as ex:
-                print("Error trayendo al los permisos del usuario", ex)
-            
-            
-            #if user['profile'] ==  1: #Toma todos los permissions si es admin
-             #   permissions = [p for p in ValuePermission]
-            #else: #custom
-             #   permissions = Permission.get_permissions_by_user(user['id']) 
-                        
+            user = cursor.fetchone()
+
             cursor.close()
             connection.close()
-            
-            #if user and check_password_hash(user['password'], password):
-                
-            return User(user['id'],user['name'],user['email'],"", user['profile'], [], bool(user['is_active']))
-            
-            return None
-                
-        except Exception as ex:
-            print(f"Error loging user:{ex}")
-            return None
 
+            if not user:
+                return None
+
+            if not check_password_hash(user["password_hash"], password):
+                return None
+
+            return User(
+                user["id"],
+                user["name"],
+                user["email"],
+                "",
+                user["profile"],
+                [],
+                bool(user["is_active"])
+            )
+
+        except Exception as ex:
+            print(f"Error login user: {ex}")
+            return None
 
 
     #Agregarle los permissions igual que en login()
