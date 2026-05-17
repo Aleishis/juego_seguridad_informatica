@@ -14,22 +14,11 @@ function login(){
         return;
     }
 
-    const fecha = new Date();
-    let signin_time = fecha.getHours();
-
     
-    if (signin_time < 12){
-        mensaje_bienvenida = 'Buenos dÍas'
-    } else if (signin_time >= 12 && signin_time < 18){
-        mensaje_bienvenida = 'Buenas tardes'
-    } else{
-        mensaje_bienvenida = 'Buenas noches'
-    }
 
     const data = {
         email: email,
         password: password,
-        mensaje_bienvenida:mensaje_bienvenida
     }
 
 

@@ -8,15 +8,17 @@ from flask_login import UserMixin
 
 class User(UserMixin):
     
-    def __init__(self,id:int, name:str, email:str, password:str, profile:Profile, permissions:list[ValuePermission], is_active:bool):
+    def __init__(self,id:int, email:str, password:str, profile:Profile, permissions:list[ValuePermission], is_active:bool):
         
         self.id = id
-        self.name = name
+        #self.name = name
         self.email = email
         self.password = password
         self.profile = profile
         self.permissions = permissions
         self._is_active = is_active
+        
+    
          
     @property
     def is_active(self):
@@ -80,7 +82,7 @@ class User(UserMixin):
             connection = get_connection()
             cursor = connection.cursor(pymysql.cursors.DictCursor)
 
-            query = "SELECT id, name, email, password, is_active, profile FROM users WHERE email = %s" #Solo trae user
+            query = "SELECT id, email, password_hash, is_active, profile FROM users WHERE email = %s" #Solo trae user
             cursor.execute(query, (email,))
             
             try:
@@ -91,17 +93,17 @@ class User(UserMixin):
                 print("Error trayendo al los permisos del usuario", ex)
             
             
-            if user['profile'] ==  1: #Toma todos los permissions si es admin
-                permissions = [p for p in ValuePermission]
-            else: #custom
-                permissions = Permission.get_permissions_by_user(user['id']) 
+            #if user['profile'] ==  1: #Toma todos los permissions si es admin
+             #   permissions = [p for p in ValuePermission]
+            #else: #custom
+             #   permissions = Permission.get_permissions_by_user(user['id']) 
                         
             cursor.close()
             connection.close()
             
-            if user and check_password_hash(user['password'], password):
+            #if user and check_password_hash(user['password'], password):
                 
-                return User(user['id'],user['name'],user['email'],"", user['profile'], permissions, bool(user['is_active']))
+            return User(user['id'],user['email'],"", user['profile'], [], bool(user['is_active']))
             
             return None
                 
@@ -117,31 +119,23 @@ class User(UserMixin):
             connection = get_connection()
             cursor = connection.cursor(pymysql.cursors.DictCursor)
 
-            query = "SELECT id, name, email, profile, is_active FROM users WHERE id = %s"
+            query = "SELECT id, email, profile, is_active FROM users WHERE id = %s"
             cursor.execute(query, (user_id,))
             
             user = cursor.fetchone()
 
-            if user:              
-                
-                if user['profile'] ==  1: #Toma todos los permissions si es admin
-                    permissions = [p for p in ValuePermission]
-                else: #custom
-                    permissions = Permission.get_permissions_by_user(user['id']) 
-                
-                cursor.close()
-                connection.close()
-                return User(user['id'],
-                            user['name'],
+            cursor.close()
+            connection.close()
+            return User(user['id'],
                             user['email'], 
                             '', 
                             user['profile'],
-                            permissions,
+                            [],
                             bool(user['is_active']))
                 
         except Exception as ex:
             print(f"Error loging user:{ex}")
-            return False
+            return None
         
     
     def get_all_users():
