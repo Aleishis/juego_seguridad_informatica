@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="es">
+    <head> 
+        <meta charset="utf-8" />
+        <title>Cipher Quest</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="Juego de acertijos y palabras secretas" name="description" />
+        <meta content="Equipo Cipher Quest" name="author" />
+ 
+        <link rel="shortcut icon" href="{{url_for('static', filename='images/site/favicon.png')}}">
+
+        <link href="{{url_for('static', filename='css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <link href="{{url_for('static', filename='css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{url_for('static', filename='css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
+        <script src="{{url_for('static', filename='js/plugin.js')}}"></script>
+    </head>
+
+    <body data-sidebar="dark" data-sidebar-size="small">
+
+        {% include 'navbar.html'%}
+
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <div class="row mb-4">
+                        <div class="col-12 d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Bienvenido a Cipher Quest</h4>
+
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item">
+                                        <a href="javascript: void(0);">Inicio</a>
+                                    </li>
+
+                                    <li class="breadcrumb-item active">
+                                        Panel de Juego
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <!-- PANEL IZQUIERDO -->
+                        <div class="col-md-3">
+
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0 text-primary">
+                                        Jugador
+                                    </h5>
+
+                                    <small>
+                                        Panel de aventura
+                                    </small>
+                                </div>
+
+                                <div class="card-body text-center">
+
+                                    <img 
+                                        src="{{ url_for('static', filename='images/users/default.png') }}"
+                                        class="rounded-circle mb-3"
+                                        width="80"
+                                        height="80"
+                                        alt="Jugador">
+
+                                    <h5 class="mb-1">
+                                        {{ current_user.name }}
+                                    </h5>
+
+                                    <p class="text-muted mb-0">
+                                        Nivel actual: 1
+                                    </p>
+
+                                </div>
+                            </div>
+
+                            <!-- CARD DE INTENTOS -->
+                            <div class="card mt-3">
+
+                                <div class="card-body">
+
+                                    <h5 class="mb-3">
+                                        Intentos restantes
+                                    </h5>
+
+                                    <h2 class="mb-1">
+                                        3
+                                    </h2>
+
+                                    <p class="text-muted mb-0">
+                                        Vidas disponibles
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PANEL DERECHO -->
+                        <div class="col-md-9">
+
+                            <div class="card">
+
+                                <div class="card-body">
+
+                                    <h5 class="mb-4">
+                                        Niveles del Juego
+                                    </h5>
+
+                                    <div class="table-responsive">
+
+                                        <table class="table align-middle">
+
+                                            <thead class="table-light">
+
+                                                <tr>
+                                                    <th>Nivel</th>
+                                                    <th>Pista</th>
+                                                    <th>Dificultad</th>
+                                                    <th>Estado</th>
+                                                </tr>
+
+                                            </thead>
+
+                                            <tbody>
+
+                                                <tr>
+                                                    <td>1</td>
+
+                                                    <td>
+                                                        Es una fruta amarilla y alargada
+                                                    </td>
+
+                                                    <td>
+                                                        Fácil
+                                                    </td>
+
+                                                    <td>
+                                                        <span class="badge bg-success">
+                                                            Disponible
+                                                        </span>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>2</td>
+
+                                                    <td>
+                                                        Animal conocido por construir represas
+                                                    </td>
+
+                                                    <td>
+                                                        Medio
+                                                    </td>
+
+                                                    <td>
+                                                        <span class="badge bg-warning">
+                                                            Bloqueado
+                                                        </span>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>3</td>
+
+                                                    <td>
+                                                        Criatura legendaria que escupe fuego
+                                                    </td>
+
+                                                    <td>
+                                                        Difícil
+                                                    </td>
+
+                                                    <td>
+                                                        <span class="badge bg-danger">
+                                                            Pendiente
+                                                        </span>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="rightbar-overlay"></div>
+
+        <script src="{{url_for('static', filename='libs/jquery/jquery.min.js')}}"></script>
+        <script src="{{url_for('static', filename='libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{url_for('static', filename='libs/metismenu/metisMenu.min.js')}}"></script>
+        <script src="{{url_for('static', filename='libs/simplebar/simplebar.min.js')}}"></script>
+        <script src="{{url_for('static', filename='libs/node-waves/waves.min.js')}}"></script>
+
+        <script src="{{url_for('static', filename='js/app.js')}}"></script>
+
+    </body>
+</html>
