@@ -98,6 +98,12 @@ class User(UserMixin):
 
             if not check_password_hash(user["password_hash"], password):
                 return None
+                             
+            if user['profile'] ==  1: #Toma todos los permissions si es admin
+                permissions = [p for p in ValuePermission]
+            else: #custom
+                permissions = Permission.get_permissions_by_user(user['id']) 
+                            
 
             return User(
                 user["id"],
@@ -105,7 +111,7 @@ class User(UserMixin):
                 user["email"],
                 "",
                 user["profile"],
-                [],
+                permissions,
                 bool(user["is_active"])
             )
 
@@ -124,6 +130,14 @@ class User(UserMixin):
             cursor.execute(query, (user_id,))
             
             user = cursor.fetchone()
+            
+            if user:              
+                
+                if user['profile'] ==  1: #Toma todos los permissions si es admin
+                    permissions = [p for p in ValuePermission]
+                else: #custom
+                    permissions = Permission.get_permissions_by_user(user['id']) 
+                            
 
             cursor.close()
             connection.close()
@@ -132,7 +146,7 @@ class User(UserMixin):
                             user['email'], 
                             '', 
                             user['profile'],
-                            [],
+                            permissions,
                             bool(user['is_active']))
                 
         except Exception as ex:

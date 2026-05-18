@@ -13,8 +13,8 @@ async function startGame() {
 const state = {
   progress: 0,
   currentQuestion: 1,
-  remainingAttempts: 3
-
+  remainingAttempts: 3,
+  score: 0
 };
 
 // Elementos del dom
@@ -55,10 +55,17 @@ async function handleSubmission() {
   }).then (response => response.json())
   .then(result => {
     if(result.correct){
+
+      state.score += 1;
+
+      if (state.score >= 5){
+        alert("¡Felicidades! Has completado el juego con éxito.");
+        window.location.href = "/welcome";
+        return;
+      }
       alert("¡Respuesta Correcta!");
       state.currentQuestion++;
       document.getElementById("current-level").textContent = state.currentQuestion;
-      //state.remainingAttempts = 3;
       updateAttempts();
       loadQuestion(result);
     }
@@ -86,7 +93,6 @@ function handleLifeLoss() {
   }
 }
 
-// Event Listeners
 continueBtn.addEventListener("click", handleSubmission);
 
 answerInput.addEventListener("keypress", (e) => {

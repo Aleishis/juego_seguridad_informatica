@@ -28,15 +28,15 @@ def login():
         
         email = data.get('email')
         password = data.get('password')
-        # Here you would normally verify the email and password
-        # For demonstration, we will just log in any user
-        user = User.check_login(email, password)  # You would replace this with your actual user retrieval logic
+
+        user = User.check_login(email, password)  
         
         
         if user and user.is_active:
             login_user(user)
             
-            session['user_id'] = user.id  
+            session['user_id'] = user.id 
+            session['permissions'] = [p.value for p in user.permissions] 
             
             return jsonify({'success' : True, "message": "Logged in successfully!",}), 200
         else:   
@@ -97,9 +97,9 @@ def answer():
     current_index = game['current']
     question_id = game['questions'][current_index]
     
-    word = Word.get_by_id(question_id)
+    #word = Word.get_by_id(question_id)
 
-    if answer.lower() == word.word.lower():
+    if Word.check_word(question_id, answer.lower()):
         
         new_word = Word.get_by_id(game['questions'][game['current'] + 1]) if game['current'] + 1 < len(game['questions']) else None
 
@@ -123,11 +123,49 @@ def answer():
             'correct': False,
             'lives': game['lives'],
         })
+        
+@app.route('/edit_riddles')
+@login_required
+def edit_riddles():
+    
+    if 1 not in session.get('permissions'):
+        return redirect(url_for('welcome'))
+    
+    words = Word.get_all_words()
+    
+    return render_template('edit_riddles.html', words=words)    
+
+
+@app.route("/admin/riddles/create", methods=["POST"])
+def create_riddle():
+    hint = request.form.get("hint")
+    word = request.form.get("word")
+    
+    if Word.create(word, hint):
+        return redirect(url_for('edit_riddles'))
+
+
+@app.route("/admin/riddles/edit/<int:id>", methods=["POST"])
+def edit_riddle(id):
+    hint = request.form.get("hint")
+    word = request.form.get("word")
+
+    if Word.edit(id, word, hint):
+        return redirect(url_for('edit_riddles'))
+
+
+@app.route("/admin/riddles/delete/<int:id>", methods=["POST"])
+def delete_riddle(id):
+    if Word.delete(id):
+        return redirect(url_for('edit_riddles'))
+
 
 @app.route('/game')
 @login_required
 def game():
     return render_template('game.html')
+
+
 
 @login_manager.user_loader
 def load_user(user_id):

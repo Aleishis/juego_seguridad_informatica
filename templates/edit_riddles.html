@@ -1,0 +1,546 @@
+<!doctype html>
+
+<html class="dark" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Mystic Quest - Panel de Administrador</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mystic_quest/edit_riddles.css') }}" />
+
+
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed-variant": "#003ea8",
+              "primary-fixed-dim": "#b4c5ff",
+              "tertiary-fixed": "#6ffbbe",
+              "surface-bright": "#31394d",
+              "surface-container-lowest": "#060e20",
+              "surface-dim": "#0b1326",
+              outline: "#8d90a0",
+              "surface-variant": "#2d3449",
+              "tertiary-container": "#007d55",
+              background: "#0b1326",
+              "surface-tint": "#b4c5ff",
+              "tertiary-fixed-dim": "#4edea3",
+              "inverse-primary": "#0053db",
+              secondary: "#c0c1ff",
+              surface: "#0b1326",
+              "secondary-container": "#3131c0",
+              "inverse-on-surface": "#283044",
+              "on-surface-variant": "#c3c6d7",
+              "secondary-fixed-dim": "#c0c1ff",
+              "on-primary": "#002a78",
+              "surface-container-high": "#222a3d",
+              "error-container": "#93000a",
+              "secondary-fixed": "#e1e0ff",
+              "on-secondary-container": "#b0b2ff",
+              "on-primary-container": "#eeefff",
+              "on-surface": "#dae2fd",
+              tertiary: "#4edea3",
+              "on-tertiary-fixed-variant": "#005236",
+              "on-tertiary": "#003824",
+              error: "#ffb4ab",
+              "inverse-surface": "#dae2fd",
+              "on-tertiary-container": "#bdffdb",
+              "on-background": "#dae2fd",
+              "surface-container": "#171f33",
+              "on-error-container": "#ffdad6",
+              "surface-container-low": "#131b2e",
+              "on-tertiary-fixed": "#002113",
+              "outline-variant": "#434655",
+              "on-secondary-fixed-variant": "#2f2ebe",
+              "on-secondary": "#1000a9",
+              "primary-container": "#2563eb",
+              "on-error": "#690005",
+              primary: "#b4c5ff",
+              "on-secondary-fixed": "#07006c",
+              "on-primary-fixed": "#00174b",
+              "primary-fixed": "#dbe1ff",
+              "surface-container-highest": "#2d3449",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            spacing: {
+              "margin-page": "2rem",
+              "gutter-md": "1.5rem",
+              base: "4px",
+              "container-padding": "1.5rem",
+              "table-row-height": "64px",
+            },
+            fontFamily: {
+              "body-lg": ["Plus Jakarta Sans"],
+              "label-md": ["Plus Jakarta Sans"],
+              "body-md": ["Plus Jakarta Sans"],
+              "label-sm": ["Plus Jakarta Sans"],
+              "headline-md": ["Plus Jakarta Sans"],
+              "headline-lg": ["Plus Jakarta Sans"],
+              "headline-md-mobile": ["Plus Jakarta Sans"],
+              "headline-xl": ["Plus Jakarta Sans"],
+            },
+            fontSize: {
+              "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+              "label-md": [
+                "14px",
+                {
+                  lineHeight: "20px",
+                  letterSpacing: "0.01em",
+                  fontWeight: "500",
+                },
+              ],
+              "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "label-sm": ["12px", { lineHeight: "16px", fontWeight: "600" }],
+              "headline-md": [
+                "24px",
+                { lineHeight: "32px", fontWeight: "600" },
+              ],
+              "headline-lg": [
+                "32px",
+                { lineHeight: "40px", fontWeight: "700" },
+              ],
+              "headline-md-mobile": [
+                "20px",
+                { lineHeight: "28px", fontWeight: "600" },
+              ],
+              "headline-xl": [
+                "40px",
+                {
+                  lineHeight: "48px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+
+  </head>
+  <body
+    class="bg-background text-on-background selection:bg-primary/30 min-h-screen"
+  >
+    <!-- Top Navigation Bar (Shared Component) -->
+    <header
+      class="bg-surface-container dark:bg-surface-container-lowest/70 backdrop-blur-xl flex justify-between items-center w-full px-margin-page h-16 fixed top-0 z-50 border-b border-outline-variant/30 shadow-md"
+    >
+      <div class="flex items-center gap-4">
+        <span
+          class="material-symbols-outlined text-primary dark:text-primary-fixed"
+          style="font-variation-settings: &quot;FILL&quot; 1"
+          >shield_with_heart</span
+        >
+        <h1
+          class="text-headline-md font-headline-lg tracking-wider text-primary dark:text-primary-fixed"
+        >
+          Mystic Quest
+        </h1>
+      </div>
+      <div class="flex items-center gap-6">
+        <div class="flex items-center gap-4 border-outline-variant/30 pl-6">
+          <div class="flex items-center gap-2">
+
+          <div class="relative">
+          <!-- Botón usuario -->
+          <button
+            id="user-menu-button"
+            class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container hover:bg-surface-variant transition-colors cursor-pointer group"
+          >
+            <span
+              class="material-symbols-outlined text-on-surface-variant group-hover:text-primary"
+            >
+              account_circle
+            </span>
+
+            <span
+              class="font-label-md text-label-md text-on-surface-variant group-hover:text-on-surface"
+            >
+              {{ current_user.name }}
+            </span>
+
+            <span
+              class="material-symbols-outlined text-on-surface-variant text-[18px]"
+            >
+              expand_more
+            </span>
+          </button>
+
+          <!-- Dropdown -->
+          <div
+            id="user-dropdown"
+            class="hidden absolute right-0 mt-2 w-52 rounded-xl bg-surface-container border border-white/10 shadow-2xl overflow-hidden"
+          >
+            <a
+              href="/logout"
+              class="flex items-center gap-3 px-4 py-3 hover:bg-surface-variant transition-colors text-on-surface"
+            >
+              <span class="material-symbols-outlined text-[20px]">
+                logout
+              </span>
+
+              <span>Cerrar sesión</span>
+            </a>
+          </div>
+        </div>
+        </div>
+      </div>
+    </header>
+    <!-- Side Navigation Bar (Shared Component) -->
+    <!-- Main Content Area -->
+    <main class="pt-16 min-h-screen">
+      <div class="p-margin-page max-w-[1400px] mx-auto">
+        <!-- Page Header Section -->
+        <div
+          class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8"
+        >
+          <div>
+
+            <h2 class="font-headline-lg text-headline-lg text-on-surface">
+              Adivinanzas
+            </h2>
+            <p class="text-on-surface-variant font-body-md text-body-md mt-1">
+              Gestiona los acertijos
+            </p>
+          </div>
+          <div class="flex items-center gap-3">
+
+            <button
+            id="btn-create"
+            class="bg-primary-container text-on-primary-container px-6 py-3 rounded-xl flex items-center gap-2 hover:bg-primary-container/90 transition-all font-label-md text-label-md shadow-lg shadow-primary-container/20 active:scale-95"
+            >
+            <span class="material-symbols-outlined">add</span>
+            Crear nueva adivinanza
+            </button>
+          </div>
+        </div>
+
+        <div class="glass-panel rounded-3xl overflow-hidden shadow-2xl">
+
+          <div class="overflow-x-auto custom-scrollbar">
+            <table class="w-full border-collapse">
+              <thead>
+                <tr class="bg-surface-container-highest/50">
+                  <th
+                    class="text-left px-6 py-4 font-label-sm text-label-sm text-outline uppercase tracking-wider"
+                  >
+                    Pista
+                  </th>
+
+                  <th
+                    class="text-right px-6 py-4 font-label-sm text-label-sm text-outline uppercase tracking-wider"
+                  >
+                    Acciones
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-outline-variant/10">
+                <!-- Row 1 -->
+
+                {% for word in words%}
+                <tr class="hover:bg-white/5 transition-colors group">
+                  <td
+                    class="px-6 py-table-row-height font-label-md text-label-md text-primary font-bold"
+                  >
+                    {{word.hint}}
+                  </td>
+                  <td class="px-6 py-table-row-height text-right">
+                    <div class="flex items-center justify-end gap-2">
+                        <button
+                        class="btn-edit w-10 h-10 rounded-xl flex items-center justify-center bg-primary-container/20 text-primary-fixed-dim hover:bg-primary-container transition-all hover:text-white"
+                        title="Editar"
+                        data-id="{{word.id}}"
+                        data-hint="{{word.hint}}"
+                        >
+                        <span class="material-symbols-outlined text-[20px]">
+                            edit
+                        </span>
+                        </button>
+                        <button
+                        class="btn-delete w-10 h-10 rounded-xl flex items-center justify-center bg-error-container/20 text-error hover:bg-error-container transition-all hover:text-white"
+                        title="Eliminar"
+                        data-id="{{word.id}}"
+                        data-hint="{{word.hint}}"
+                        >
+                        <span class="material-symbols-outlined text-[20px]">
+                            delete
+                        </span>
+                        </button>
+                    </div>
+                  </td>
+                </tr>
+
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- MODAL BACKDROP -->
+<div
+  id="modal-backdrop"
+  class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center"
+>
+
+  <!-- MODAL -->
+  <div
+    id="modal"
+    class="bg-surface-container w-full max-w-lg rounded-3xl p-8 shadow-2xl"
+  >
+
+    <!-- HEADER -->
+    <div class="flex items-center justify-between mb-6">
+      <h3 id="modal-title" class="text-2xl font-bold text-on-surface">
+        Modal
+      </h3>
+
+      <button id="close-modal">
+        <span class="material-symbols-outlined text-on-surface">
+          close
+        </span>
+      </button>
+    </div>
+
+    <!-- BODY -->
+    <div id="modal-body"></div>
+
+  </div>
+</div>
+
+
+<script>
+
+const modalBackdrop = document.getElementById("modal-backdrop");
+const modalTitle = document.getElementById("modal-title");
+const modalBody = document.getElementById("modal-body");
+const closeModalBtn = document.getElementById("close-modal");
+
+function openModal() {
+    modalBackdrop.classList.remove("hidden");
+}
+
+function closeModal() {
+    modalBackdrop.classList.add("hidden");
+}
+
+closeModalBtn.addEventListener("click", closeModal);
+
+modalBackdrop.addEventListener("click", (e) => {
+    if(e.target === modalBackdrop){
+        closeModal();
+    }
+});
+
+
+// =========================
+// CREAR
+// =========================
+
+document.getElementById("btn-create").addEventListener("click", () => {
+
+    modalTitle.textContent = "Crear adivinanza";
+
+    modalBody.innerHTML = `
+        <form method="POST" action="/admin/riddles/create">
+
+            <div class="mb-4">
+                <label class="block mb-2 text-on-surface">
+                    Pista
+                </label>
+
+                <input
+                    type="text"
+                    name="hint"
+                    class="w-full rounded-xl bg-surface-container-high p-3 border border-outline-variant"
+                    required
+                >
+            </div>
+
+            <div class="mb-6">
+                <label class="block mb-2 text-on-surface">
+                    Respuesta
+                </label>
+
+                <input
+                    type="text"
+                    name="word"
+                    class="w-full rounded-xl bg-surface-container-high p-3 border border-outline-variant"
+                    required
+                >
+            </div>
+
+            <button
+                type="submit"
+                class="w-full bg-primary-container text-white py-3 rounded-xl"
+            >
+                Crear
+            </button>
+
+        </form>
+    `;
+
+    openModal();
+});
+
+
+// =========================
+// EDITAR
+// =========================
+
+document.querySelectorAll(".btn-edit").forEach(btn => {
+
+    btn.addEventListener("click", () => {
+
+        const id = btn.dataset.id;
+        const hint = btn.dataset.hint;
+        const word = btn.dataset.word;
+
+        modalTitle.textContent = "Editar adivinanza";
+
+        modalBody.innerHTML = `
+            <form method="POST" action="/admin/riddles/edit/${id}">
+
+                <div class="mb-4">
+                    <label class="block mb-2 text-on-surface">
+                        Pista
+                    </label>
+
+                    <input
+                        type="text"
+                        name="hint"
+                        value="${hint}"
+                        class="w-full rounded-xl bg-surface-container-high p-3 border border-outline-variant"
+                        required
+                    >
+                </div>
+
+                <div class="mb-6">
+                    <label class="block mb-2 text-on-surface">
+                        Respuesta
+                    </label>
+
+                    <input
+                        type="text"
+                        name="word"
+                        value="${word}"
+                        class="w-full rounded-xl bg-surface-container-high p-3 border border-outline-variant"
+                        required
+                    >
+                </div>
+
+                <button
+                    type="submit"
+                    class="w-full bg-primary-container text-white py-3 rounded-xl"
+                >
+                    Guardar cambios
+                </button>
+
+            </form>
+        `;
+
+        openModal();
+    });
+
+});
+
+
+// =========================
+// ELIMINAR
+// =========================
+
+document.querySelectorAll(".btn-delete").forEach(btn => {
+
+    btn.addEventListener("click", () => {
+
+        const id = btn.dataset.id;
+        const hint = btn.dataset.hint;
+
+        modalTitle.textContent = "Eliminar adivinanza";
+
+        modalBody.innerHTML = `
+            <div>
+
+                <p class="text-on-surface mb-6">
+                    ¿Seguro que deseas eliminar:
+                    <strong>${hint}</strong>?
+                </p>
+
+                <form method="POST" action="/admin/riddles/delete/${id}">
+
+                    <div class="flex gap-3">
+
+                        <button
+                            type="button"
+                            id="cancel-delete"
+                            class="flex-1 py-3 rounded-xl border border-outline-variant"
+                        >
+                            Cancelar
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="flex-1 py-3 rounded-xl bg-red-600 text-white"
+                        >
+                            Eliminar
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+        `;
+
+        openModal();
+
+        document
+            .getElementById("cancel-delete")
+            .addEventListener("click", closeModal);
+    });
+
+});
+
+</script>
+
+    <script>
+      const userMenuButton = document.getElementById("user-menu-button");
+      const userDropdown = document.getElementById("user-dropdown");
+
+      userMenuButton.addEventListener("click", () => {
+        userDropdown.classList.toggle("hidden");
+      });
+
+      // cerrar al clickear afuera
+      document.addEventListener("click", (event) => {
+        if (
+          !userMenuButton.contains(event.target) &&
+          !userDropdown.contains(event.target)
+        ) {
+          userDropdown.classList.add("hidden");
+        }
+      });
+    </script>
+
+  </body>
+</html>
