@@ -1,0 +1,116 @@
+<!doctype html>
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Mystic Quest - Juego</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mystic_quest/game.css') }}" />
+
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <span class="material-symbols-outlined filled">shield</span>
+        <span>Mystic Quest</span>
+      </div>
+      <div class="nav-stats">
+        <span class="level-info">Nivel 2 de 5</span>
+        <div class="hearts" id="heart-container">
+          <span class="material-symbols-outlined heart filled">favorite</span>
+          <span class="material-symbols-outlined heart filled">favorite</span>
+          <span class="material-symbols-outlined heart">favorite</span>
+        </div>
+        <div class="user-profile">
+          <div class="avatar">
+            <span
+              class="material-symbols-outlined"
+              style="font-size: 18px; color: var(--on-primary-container)"
+              >person</span
+            >
+          </div>
+          <span style="font-size: 14px; font-weight: 500">Jugador</span>
+          <span class="material-symbols-outlined" style="font-size: 18px"
+            >expand_more</span
+          >
+        </div>
+      </div>
+    </nav>
+    <main>
+      <div class="game-grid">
+        <div class="glass-panel image-container">
+          <img
+            alt="Banana"
+            class="game-image"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMqBTJ6mntbPRMOyZRzkSsf2BfqSkNFSSEXyHvgiklsBz8Kh-U54knwKVACLVfoAyY_6pj_lLeFPseoYeEbEmcvD3u-9WxBr6ACiHYI4FQVvVQrLE_1O6gq5DZoMfztStlPqhv5KnAt2UvvrNDsT3OVl2ipX_UH-x4NtnJuEkyoV40fFPgINc0SJWVwLA2u8JZq8Egn1vlypnaQfUr2FXPNLOQLvddynOZjpm2YgKwXARaKpxqSsRHzBWwBqSmNhzi3GQtTwLjI1E"
+          />
+        </div>
+        <div class="glass-panel content-panel">
+          <div class="game-content">
+            <div class="hint-header">
+              <span class="material-symbols-outlined">lightbulb</span>
+              <h2 style="font-size: 24px; font-weight: 600">Pista</h2>
+            </div>
+            <p class="hint-text">
+              Es una fruta alargada de color amarillo que los monos adoran.
+            </p>
+            <div class="input-group">
+              <label class="label" for="answer">Escribe tu respuesta</label>
+              <input
+                class="answer-input"
+                id="answer"
+                placeholder="Tu respuesta..."
+                type="text"
+              />
+            </div>
+            <div class="attempts-row">
+              <span class="label">Intentos restantes</span>
+              <div class="attempt-indicators" id="attempt-container">
+                <div class="attempt-dot"></div>
+                <div class="attempt-dot"></div>
+                <div class="attempt-dot used"></div>
+              </div>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn-continue" id="continue-btn">
+              Continuar
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+            <div class="footer-actions">
+              <button class="btn-exit">
+                <span class="material-symbols-outlined" style="font-size: 18px"
+                  >logout</span
+                >
+                Salir
+              </button>
+              <div class="progress-container">
+                <div class="progress-bar-bg">
+                  <div class="progress-fill" id="progress-bar"></div>
+                </div>
+                <span class="progress-text" id="progress-percent">40%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>© 2024 Mystic Quest. Una aventura de adivinanzas mágicas.</p>
+    </footer>
+    <script>
+      // Game State
+
+    </script>
+    <script src="{{ url_for('static', filename='js/mystic_quest/game.js') }}"></script>
+
+  </body>
+</html>

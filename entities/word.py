@@ -37,6 +37,13 @@ class Word:
         
     def get_by_id(word_id):
         
+        """
+            Obtiene una palabra por su ID
+            
+            Returns: Word: Objeto Word, None si no se encuentra palabra con id dado
+        """
+        
+        
         try:
             connection = get_connection()
             cursor = connection.cursor(pymysql.cursors.DictCursor)

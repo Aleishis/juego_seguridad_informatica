@@ -1,6 +1,8 @@
-document.getElementById("btn-signin").addEventListener("click", login);
-
+document.getElementById("loginForm").addEventListener("submit", login);
 function login(){
+
+    event.preventDefault();
+
     const email = document.getElementById("user-email").value;
     const password = document.getElementById("user-password").value;
 
@@ -23,7 +25,7 @@ function login(){
 
 
 
-    fetch('api/login', {
+    fetch('/api/login', {
         method:"POST",
         headers: { "Content-Type": "application/json"},
         credentials: "include", 

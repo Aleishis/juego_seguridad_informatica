@@ -3,6 +3,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from dotenv import load_dotenv
 import os
 from entities.user import User
+from entities.word import Word
 
 load_dotenv()
 
@@ -63,6 +64,33 @@ def register():
 @login_required
 def welcome():    
     return render_template('welcome.html', username=current_user.name)
+
+@app.route('/api/game/start', methods=['POST'])
+@login_required
+def start_game():
+
+    words = Word.get_random_words()
+
+    session['game'] = {
+        'questions': [word.id for word in words],
+        'current': 0,
+        'score': 0,
+        'lives': 3
+    }
+
+    first_word = words[0]
+
+    return jsonify({
+        'success': True,
+        'hint': first_word.hint,
+        'question': 1,
+        'lives': 3
+    })
+
+@app.route('/game')
+@login_required
+def game():
+    return render_template('game.html')
 
 @login_manager.user_loader
 def load_user(user_id):
