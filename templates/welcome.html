@@ -177,39 +177,65 @@
             >leaderboard</span
           ><span
             class="font-label-md text-label-md text-on-surface-variant group-hover:text-on-surface"
-            >Clasificaci3n</span
+            >Clasificaciones</span
           >
         </div>
-        <div
-          class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container hover:bg-surface-variant transition-colors cursor-pointer group"
-        >
-          <span
-            class="material-symbols-outlined text-on-surface-variant group-hover:text-primary"
-            >account_circle</span
+        <div class="relative">
+          <!-- Botón usuario -->
+          <button
+            id="user-menu-button"
+            class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container hover:bg-surface-variant transition-colors cursor-pointer group"
           >
-          <span
-            class="font-label-md text-label-md text-on-surface-variant group-hover:text-on-surface"
-            >Jugador</span
+            <span
+              class="material-symbols-outlined text-on-surface-variant group-hover:text-primary"
+            >
+              account_circle
+            </span>
+
+            <span
+              class="font-label-md text-label-md text-on-surface-variant group-hover:text-on-surface"
+            >
+              {{ current_user.name }}
+            </span>
+
+            <span
+              class="material-symbols-outlined text-on-surface-variant text-[18px]"
+            >
+              expand_more
+            </span>
+          </button>
+
+          <!-- Dropdown -->
+          <div
+            id="user-dropdown"
+            class="hidden absolute right-0 mt-2 w-52 rounded-xl bg-surface-container border border-white/10 shadow-2xl overflow-hidden"
           >
-          <span
-            class="material-symbols-outlined text-on-surface-variant text-[18px]"
-            >expand_more</span
-          >
+            <a
+              href="/logout"
+              class="flex items-center gap-3 px-4 py-3 hover:bg-surface-variant transition-colors text-on-surface"
+            >
+              <span class="material-symbols-outlined text-[20px]">
+                logout
+              </span>
+
+              <span>Cerrar sesión</span>
+            </a>
+          </div>
         </div>
       </div>
     </header>
     <!-- Main Content Canvas -->
     <main
-      class="pb-12 flex flex-col items-center justify-center min-h-screen px-container-padding text-center pt-20"
+      class="flex flex-col items-center justify-center h-screen px-container-padding text-center overflow-hidden pt-20"
     >
       <!-- Welcome Hero Section -->
-      <div class="max-w-4xl w-full flex flex-col items-center gap-8 py-12">
+      <div class="max-w-4xl w-full flex flex-col items-center gap-4 py-4">
         <!-- Title Cluster -->
         <div class="space-y-4">
           <h1
             class="font-headline-xl text-headline-xl text-on-surface tracking-tight"
           >
-            ¡Bienvenido, Jugador! 🎉
+            ¡Bienvenido, {{current_user.name}}!
           </h1>
           <p
             class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mx-auto"
@@ -220,7 +246,7 @@
         </div>
         <!-- Hero Illustration Container -->
         <div
-          class="relative w-full aspect-[16/9] max-w-2xl rounded-3xl overflow-hidden glass-card shadow-2xl group"
+          class="relative w-full max-w-xl h-[320px] rounded-3xl overflow-hidden glass-card shadow-2xl group"
         >
           <!-- Background Image Placeholder -->
           <img
@@ -252,40 +278,25 @@
           </button>
         </div>
       </div>
-      <!-- Secondary Navigation/Info (Optional Contextual Elements) -->
     </main>
-    <!-- BottomNavBar (Mobile only) -->
-    <nav
-      class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container/80 backdrop-blur-lg border-t border-white/5 shadow-[0_-4px_20px_rgba(0,0,0,0.3)] rounded-t-xl"
-    >
-      <a
-        class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1 active:scale-90 duration-200"
-        href="#"
-      >
-        <span class="material-symbols-outlined">explore</span>
-        <span class="font-label-sm text-label-sm">Quest</span>
-      </a>
-      <a
-        class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 rounded-xl transition-all"
-        href="#"
-      >
-        <span class="material-symbols-outlined">inventory_2</span>
-        <span class="font-label-sm text-label-sm">Vault</span>
-      </a>
-      <a
-        class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 rounded-xl transition-all"
-        href="#"
-      >
-        <span class="material-symbols-outlined">auto_awesome</span>
-        <span class="font-label-sm text-label-sm">Relics</span>
-      </a>
-      <a
-        class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 rounded-xl transition-all"
-        href="#"
-      >
-        <span class="material-symbols-outlined">settings</span>
-        <span class="font-label-sm text-label-sm">Settings</span>
-      </a>
-    </nav>
+
+    <script>
+      const userMenuButton = document.getElementById("user-menu-button");
+      const userDropdown = document.getElementById("user-dropdown");
+
+      userMenuButton.addEventListener("click", () => {
+        userDropdown.classList.toggle("hidden");
+      });
+
+      // cerrar al clickear afuera
+      document.addEventListener("click", (event) => {
+        if (
+          !userMenuButton.contains(event.target) &&
+          !userDropdown.contains(event.target)
+        ) {
+          userDropdown.classList.add("hidden");
+        }
+      });
+    </script>
   </body>
 </html>
