@@ -18,7 +18,7 @@ class Permission:
         except Exception as ex:
             print("Error trayendo al los permisos del usuario", ex)
         
-        permissions = [ValuePermission(row[1]) for row in cursor.fetchall()] #row[1] es el value del permission
+        permissions = [ValuePermission(int(row[1])) for row in cursor.fetchall()] #row[1] es el value del permission
 
         cursor.close()
         connection.close()

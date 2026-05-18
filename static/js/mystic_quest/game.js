@@ -10,6 +10,14 @@ async function startGame() {
   loadQuestion(result);
 }
 
+const images = {
+  1: "/static/images/quest_images/burro_quest.jpg",
+  2: "/static/images/quest_images/gato_quest.png",
+  3: "/static/images/quest_images/shrek_quest.webp",
+  4: "/static/images/quest_images/lord_farquaad_quest.webp",
+  5: "/static/images/quest_images/pinocho_quest.webp"
+}
+
 const state = {
   progress: 0,
   currentQuestion: 1,
@@ -44,7 +52,7 @@ function updateAttempts() {
 }
 
 async function handleSubmission() {
-  const answer = answerInput.value.trim();
+  const answer = answerInput.value.trim().toLowerCase();
 
   if (!answer) return;
 
@@ -104,7 +112,7 @@ answerInput.addEventListener("keypress", (e) => {
 function loadQuestion(data) {
   document.querySelector(".hint-text").textContent = data.hint;
 
-  //document.querySelector(".game-image").src = data.image;
+  document.querySelector(".game-image").src = images[state.currentQuestion];
 
   state.progress = state.currentQuestion === 1 ? 0 : ((state.currentQuestion - 1) / 5) * 100;
 

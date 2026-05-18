@@ -222,6 +222,7 @@
               Gestiona los acertijos
             </p>
           </div>
+          {% if 1 in permissions%}
           <div class="flex items-center gap-3">
 
             <button
@@ -232,6 +233,7 @@
             Crear nueva adivinanza
             </button>
           </div>
+          {% endif %}
         </div>
 
         <div class="glass-panel rounded-3xl overflow-hidden shadow-2xl">
@@ -275,6 +277,8 @@
                             edit
                         </span>
                         </button>
+
+                        {% if 2 in permissions%}
                         <button
                         class="btn-delete w-10 h-10 rounded-xl flex items-center justify-center bg-error-container/20 text-error hover:bg-error-container transition-all hover:text-white"
                         title="Eliminar"
@@ -285,6 +289,7 @@
                             delete
                         </span>
                         </button>
+                        {% endif %}
                     </div>
                   </td>
                 </tr>

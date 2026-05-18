@@ -128,12 +128,13 @@ def answer():
 @login_required
 def edit_riddles():
     
-    if 1 not in session.get('permissions'):
+    permissions = session.get('permissions', [])
+    if 1 not in permissions:
         return redirect(url_for('welcome'))
     
     words = Word.get_all_words()
     
-    return render_template('edit_riddles.html', words=words)    
+    return render_template('edit_riddles.html', words=words, permissions=permissions)    
 
 
 @app.route("/admin/riddles/create", methods=["POST"])
