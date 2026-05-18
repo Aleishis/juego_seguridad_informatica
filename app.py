@@ -74,7 +74,6 @@ def start_game():
     session['game'] = {
         'questions': [word.id for word in words],
         'current': 0,
-        'score': 0,
         'lives': 3
     }
 
@@ -86,6 +85,44 @@ def start_game():
         'question': 1,
         'lives': 3
     })
+    
+@app.route('/api/game/answer', methods=['POST'])
+@login_required
+def answer():
+    data = request.get_json()
+    
+    answer = data.get('answer')
+    game = session.get('game')
+    
+    current_index = game['current']
+    question_id = game['questions'][current_index]
+    
+    word = Word.get_by_id(question_id)
+
+    if answer.lower() == word.word.lower():
+        
+        new_word = Word.get_by_id(game['questions'][game['current'] + 1]) if game['current'] + 1 < len(game['questions']) else None
+
+        game['current'] += 1
+
+        session['game'] = game
+
+        return jsonify({
+            'correct': True,
+            'current' : game['current'],
+            'hint': new_word.hint if new_word else None
+        })
+
+    else:
+
+        game['lives'] -= 1
+
+        session['game'] = game
+
+        return jsonify({
+            'correct': False,
+            'lives': game['lives'],
+        })
 
 @app.route('/game')
 @login_required

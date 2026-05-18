@@ -23,12 +23,7 @@
         <span>Mystic Quest</span>
       </div>
       <div class="nav-stats">
-        <span class="level-info">Nivel 2 de 5</span>
-        <div class="hearts" id="heart-container">
-          <span class="material-symbols-outlined heart filled">favorite</span>
-          <span class="material-symbols-outlined heart filled">favorite</span>
-          <span class="material-symbols-outlined heart">favorite</span>
-        </div>
+        <span class="level-info">Nivel <span id="current-level">1</span> de 5</span>
         <div class="user-profile">
           <div class="avatar">
             <span
@@ -37,7 +32,7 @@
               >person</span
             >
           </div>
-          <span style="font-size: 14px; font-weight: 500">Jugador</span>
+          <span style="font-size: 14px; font-weight: 500">{{current_user.name}}</span>
           <span class="material-symbols-outlined" style="font-size: 18px"
             >expand_more</span
           >
@@ -60,7 +55,7 @@
               <h2 style="font-size: 24px; font-weight: 600">Pista</h2>
             </div>
             <p class="hint-text">
-              Es una fruta alargada de color amarillo que los monos adoran.
+              
             </p>
             <div class="input-group">
               <label class="label" for="answer">Escribe tu respuesta</label>
@@ -81,7 +76,7 @@
             </div>
           </div>
           <div class="actions">
-            <button class="btn-continue" id="continue-btn">
+            <button class="btn-continue" id="btn-continue">
               Continuar
               <span class="material-symbols-outlined">arrow_forward</span>
             </button>
@@ -103,9 +98,7 @@
         </div>
       </div>
     </main>
-    <footer>
-      <p>© 2024 Mystic Quest. Una aventura de adivinanzas mágicas.</p>
-    </footer>
+
     <script>
       // Game State
 

@@ -11,8 +11,6 @@ async function startGame() {
 }
 
 const state = {
-  totalLives: 3,
-  currentLives: 3,
   progress: 0,
   currentQuestion: 1,
   remainingAttempts: 3
@@ -21,7 +19,7 @@ const state = {
 
 // Elementos del dom
 const answerInput = document.getElementById("answer");
-const continueBtn = document.getElementById("continue-btn");
+const continueBtn = document.getElementById("btn-continue");
 const heartContainer = document.getElementById("heart-container");
 const attemptContainer = document.getElementById("attempt-container");
 const progressBar = document.getElementById("progress-bar");
@@ -29,23 +27,10 @@ const progressText = document.getElementById("progress-percent");
 
 // Inicializa la interfaz con el estado inicial
 function init() {
-  updateHearts();
   updateAttempts();
   updateProgress();
 }
 
-function updateHearts() {
-  const hearts = heartContainer.querySelectorAll(".heart");
-  hearts.forEach((heart, index) => {
-    if (index < state.currentLives) {
-      heart.classList.add("filled");
-      heart.classList.remove("lost");
-    } else {
-      heart.classList.remove("filled");
-      heart.classList.add("lost");
-    }
-  });
-}
 
 function updateAttempts() {
   const dots = attemptContainer.querySelectorAll(".attempt-dot");
@@ -63,21 +48,27 @@ async function handleSubmission() {
 
   if (!answer) return;
 
-  const response = await fetch("/api/game/answer", {
+  fetch("/api/game/answer", {
     method: "POST",
-
-    headers: {
-      "Content-Type": "application/json",
-    },
-
-    body: JSON.stringify({
-      answer: answer,
-    }),
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({answer: answer})
+  }).then (response => response.json())
+  .then(result => {
+    if(result.correct){
+      alert("¡Respuesta Correcta!");
+      state.currentQuestion++;
+      document.getElementById("current-level").textContent = state.currentQuestion;
+      //state.remainingAttempts = 3;
+      updateAttempts();
+      loadQuestion(result);
+    }
+    else {
+      state.remainingAttempts--;
+      handleLifeLoss();
+      updateAttempts();
+    }
   });
 
-  const result = await response.json();
-
-  console.log(result);
 }
 
 function updateProgress() {
@@ -87,17 +78,11 @@ function updateProgress() {
 
 
 function handleLifeLoss() {
-  if (state.currentLives > 0) {
-    state.currentLives--;
-    updateHearts();
-    if (state.currentLives === 0) {
-      alert("¡Juego Terminado! Te has quedado sin vidas.");
-      location.reload();
-    } else {
-      alert("Has perdido una vida. Los intentos se reinician.");
-      state.remainingAttempts = 3;
-      updateAttempts();
-    }
+  if (state.remainingAttempts <= 0) {
+    alert("¡Has perdido todas tus vidas!");
+    window.location.href = "/welcome";
+  } else {
+    alert(`Respuesta Incorrecta. Te quedan ${state.remainingAttempts} intentos.`);
   }
 }
 
@@ -115,11 +100,7 @@ function loadQuestion(data) {
 
   //document.querySelector(".game-image").src = data.image;
 
-  state.currentLives = data.lives;
-
   state.progress = state.currentQuestion === 1 ? 0 : ((state.currentQuestion - 1) / 5) * 100;
-
-  updateHearts();
 
   updateProgress();
 }
